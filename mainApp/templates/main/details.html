@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ movie.image }}" alt="{{ movie.name }}" class="img-field" width="48%">
+                </div>
+                <div class="col-md-4">
+                    <h4> Title: {{ movie.name }}</h4>
+                    <p> Average Rating: {{ movie.arating }} </p>
+                    <p> Release Date: {{ movie.release }} </p>
+                    <a href="{% url 'mainApp:editmovie' movie.id %}" class="btn btn-warning">Edit Movie</a>
+                    <a href="{% url 'mainApp:deletemovie' movie.id %}" class="btn btn-warning">Delete Movie</a>
+                </div>
+                <div class="col-md-4">
+                    <h5> Directed By: {{ movie.director }}</h5>
+                    <h6> Cast: {{ movie.cast }} </h6>
+                    <h6> Language: {{ movie.language }} </h6>
+                </div>
+                <div class="col-md-8">
+                    <h4>Description: </h4>
+                    <p>{{ movie.description }} </p>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
