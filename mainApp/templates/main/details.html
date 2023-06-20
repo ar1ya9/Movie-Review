@@ -10,13 +10,13 @@
                 </div>
                 <div class="col-md-4">
                     <h4> Title: {{ movie.name }}</h4>
-                    <p> Average Rating: {{ movie.arating }} </p>
+                    <p> Average Rating: {{ average.rating__avg }} /10 </p>
                     <p> Release Date: {{ movie.release }} </p>
 
                     {% if request.user.is_authenticated %}
                         {% if request.user.is_superuser %}
                             <a href="{% url 'mainApp:editmovie' movie.id %}" class="btn btn-warning">Edit Movie</a>
-                            <a href="{% url 'mainApp:deletemovie' movie.id %}" class="btn btn-warning">Delete Movie</a>
+                            <a href="{% url 'mainApp:deletemovie' movie.id %}" class="btn btn-warning" onclick="return confirm('Are you sure you want to delete?');">Delete Movie</a>
                         {% endif %}
                     {% endif %}
                 </div>
@@ -30,6 +30,60 @@
                     <p>{{ movie.description }} </p>
                 </div>
                
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center">
+                    <label for="review"> Review </label>
+                </h3>
+                <form action="{% url 'mainApp:addreview' movie.id %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <label for="comment">Comment</label>
+                    <textarea name="comment" id="comment" cols="30" rows="5" class="form-control"></textarea>
+
+                    <label for="rating">Rating</label>
+                    <input type="range" name="rating" min="0" max="10" oninput="updateRating(this.value)" class="form-control">
+                    <p id="ratingValue">Rating: 5</p>
+                    
+                    <script>
+                        function updateRating(value) {
+                            document.getElementById('ratingValue').textContent = 'Rating: ' + value;
+                        }
+                    </script>
+                    
+
+                    <br>
+                    <input type="Submit" value="Add Review" class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <h2 class="text-center">Reviews</h2>
+            <div class="card-body" style="color:rgb(145, 15, 238)">
+                {% for r in review %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5 class="text-left">
+                                    {{ r.user.username }}
+                                </h5>
+                                <h6>{{ r.rating }}</h6>
+                                {% if request.user == r.user %}
+                                <a href="{% url 'mainApp:editreview' movie.id r.id %}">Edit</a>
+                                <a href="{% url 'mainApp:deletereview' movie.id r.id %}" onclick="return confirm('Are you sure you want to delete?');">Delete</a>                               
+                                {% endif %}
+                            </div>
+                            <div class="col-md-9">
+                                <p>{{ r.comment }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               {% endfor %}
             </div>
         </div>
     </div>

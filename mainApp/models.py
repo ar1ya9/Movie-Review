@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Movies(models.Model):
@@ -17,3 +18,12 @@ class Movies(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+class MovieReview(models.Model):
+    movie = models.ForeignKey(Movies, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=2000)
+    rating = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.user.username
