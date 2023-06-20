@@ -12,8 +12,13 @@
                     <h4> Title: {{ movie.name }}</h4>
                     <p> Average Rating: {{ movie.arating }} </p>
                     <p> Release Date: {{ movie.release }} </p>
-                    <a href="{% url 'mainApp:editmovie' movie.id %}" class="btn btn-warning">Edit Movie</a>
-                    <a href="{% url 'mainApp:deletemovie' movie.id %}" class="btn btn-warning">Delete Movie</a>
+
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'mainApp:editmovie' movie.id %}" class="btn btn-warning">Edit Movie</a>
+                            <a href="{% url 'mainApp:deletemovie' movie.id %}" class="btn btn-warning">Delete Movie</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class="col-md-4">
                     <h5> Directed By: {{ movie.director }}</h5>

@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">
+                Login With Your Account
+            </h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <label for="username">Username</label>
+                <input type="text" placeholder="Enter your username" class="form-control" name="username">
+
+                <label for="password">Password</label>
+                <input type="password" placeholder="Enter your password" class="form-control" name="password">
+                <br>
+
+                {% if error %}
+                    <i style="color:crimson">{{ error }}</i>
+                {% endif %}
+                
+                <input type="Submit" value="Login" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
